@@ -1,4 +1,6 @@
+from config import engine
 from sqlalchemy.orm import Session,joinedload
+import models
 from models import *
 from schemas import *
 
@@ -74,8 +76,14 @@ def update_asset(db: Session, Id: int, Name: str, Type: str):
     return _asset
 
 def add_employee_asset(db: Session, ES: EmpAssetSchema):
-    _emp_asset = EmpAsset(emp_id=ES.empId, asset_id=ES.assetId)
-    db.add(_emp_asset)
-    db.commit()
-    db.refresh(_emp_asset)
-    return _emp_asset
+    with Session(bind=engine) as session:
+        empVal = session.query(models.Employee).where(models.Employee.EmpId == ES.empId).one()
+        print(empVal.FirstName)
+        assetVal = session.query(models.Asset).where(models.Asset.Id == ES.assetId).one()
+        print(assetVal.Name)
+
+        empVal.asset = [assetVal]
+        session.add(empVal)
+        session.commit()
+    
+    return emp1.asset

@@ -3,8 +3,8 @@ from config import Base
 from sqlalchemy.orm import relationship
 
 employee_asset = Table("employee_asset", Base.metadata,
-                       Column("emp_id", ForeignKey("employee.EmpId"), primary_key=True),
-                       Column("asset_id", ForeignKey("asset.Id"), primary_key=True))
+                       Column("empId", ForeignKey("employee.EmpId"), primary_key=True),
+                       Column("assetId", ForeignKey("asset.Id"), primary_key=True))
 
 
 class Employee(Base):
@@ -34,10 +34,4 @@ class Asset(Base):
     employee = relationship("Employee",
                            secondary=employee_asset,
                            back_populates="asset")
-    
-class EmpAsset(Base):
-    __tablename__ ="empasset"
-
-    emp_id = Column(Integer,primary_key=True, index=True)
-    asset_id = Column(Integer)
     
