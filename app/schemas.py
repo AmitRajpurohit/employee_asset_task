@@ -15,6 +15,7 @@ class EmployeeSchema(BaseModel):
     Address: Optional[str] = None     
     BloodGroup: Optional[str] = None  
     EmergencyContactNumber: Optional[str] = None
+    AssetCount: Optional[int] = None
 
     class Config:
         orm_mode = True
@@ -36,12 +37,8 @@ class RequestAsset(BaseModel):
     parameter: AssetSchema = Field(...)
 
 
-class EmployeeOut(EmployeeSchema):
-    asset: List[AssetSchema]
 
-class AssetOut(AssetSchema):
-    employee: List[EmployeeSchema]
-
+    
 
 
 class EmpAssetSchema(BaseModel):

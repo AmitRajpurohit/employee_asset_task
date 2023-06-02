@@ -19,6 +19,7 @@ class Employee(Base):
     Address= Column(String)
     BloodGroup= Column(String)
     EmergencyContactNumber= Column(String)
+    AssetCount = Column(Integer)
 
     asset = relationship("Asset",
                            secondary=employee_asset,

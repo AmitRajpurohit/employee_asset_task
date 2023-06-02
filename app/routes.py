@@ -88,7 +88,7 @@ async def update_asset(request: RequestAsset, db: Session = Depends(get_db)):
     return Response(status="Ok", code="200", message="Success update data", result=_asset)
 
 @router.post("/addEmpAsset")
-async def ass_emp_asset(request: RequestEmpAsset, db: Session = Depends(get_db)):
+async def add_emp_asset(request: RequestEmpAsset, db: Session = Depends(get_db)):
     crud.add_employee_asset(db, request.parameter)
     return Response(status="Ok",
                     code="200",

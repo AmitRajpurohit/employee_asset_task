@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from models import Employee,Asset
 import models
 from routes import router
 from config import engine

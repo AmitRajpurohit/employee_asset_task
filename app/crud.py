@@ -15,7 +15,7 @@ def get_employee_by_id(db: Session, emp_id: int):
 
 
 def create_employee(db: Session, emp: EmployeeSchema):
-    _emp = Employee(EmpId=emp.EmpId, FirstName=emp.FirstName, LastName=emp.LastName, Gender=emp.Gender, PhoneNumber=emp.PhoneNumber,Email=emp.Email, Address=emp.Address, BloodGroup=emp.BloodGroup, EmergencyContactNumber=emp.EmergencyContactNumber)
+    _emp = Employee(EmpId=emp.EmpId, FirstName=emp.FirstName, LastName=emp.LastName, Gender=emp.Gender, PhoneNumber=emp.PhoneNumber,Email=emp.Email, Address=emp.Address, BloodGroup=emp.BloodGroup, EmergencyContactNumber=emp.EmergencyContactNumber, AssetCount = emp.AssetCount)
     db.add(_emp)
     db.commit()
     db.refresh(_emp)
@@ -78,12 +78,13 @@ def update_asset(db: Session, Id: int, Name: str, Type: str):
 def add_employee_asset(db: Session, ES: EmpAssetSchema):
     with Session(bind=engine) as session:
         empVal = session.query(models.Employee).where(models.Employee.EmpId == ES.empId).one()
-        print(empVal.FirstName)
+        
         assetVal = session.query(models.Asset).where(models.Asset.Id == ES.assetId).one()
-        print(assetVal.Name)
 
-        empVal.asset = [assetVal]
+        assets = empVal.asset
+        empVal.asset = assets + [assetVal]
+        empVal.AssetCount = len(empVal.asset)
         session.add(empVal)
         session.commit()
     
-    return emp1.asset
+    return empVal
